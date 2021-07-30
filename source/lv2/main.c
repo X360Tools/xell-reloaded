@@ -127,7 +127,6 @@ int main(){
 	
 	xenon_sound_init();
 
-	xenon_make_it_faster(XENON_SPEED_FULL);
 	if (xenon_get_console_type() != REV_CORONA_PHISON) //Not needed for MMC type of consoles! ;)
 	{
 		printf(" * nand init\n");
@@ -157,8 +156,6 @@ int main(){
 	usb_init();
 	usb_do_poll();
 
-	// FIXME: Not initializing these devices here causes an interrupt storm in
-	// linux.
 	printf(" * sata hdd init\n");
 	xenon_ata_init();
 
@@ -168,9 +165,7 @@ int main(){
 #endif
 
 	mount_all_devices();
-	
-	/*int device_list_size = */ // findDevices();
-
+	/*int device_list_size = */ findDevices();
 	/* display some cpu info */
 	printf(" * CPU PVR: %08x\n\n", mfspr(287));
 
@@ -208,16 +203,11 @@ int main(){
 	//}
 	
 	mount_all_devices();
-	ip_addr_t fallback_address;
-	ip4_addr_set_u32(&fallback_address, 0xC0A8015A); // 192.168.1.90
-
-	printf("\n * Looking for files on TFTP...\n\n");
+	printf("\n * Looking for files on local media and TFTP...\n\n");
 	for(;;){
-		tftp_loop(boot_server_name()); //less likely to find something...
-		tftp_loop(fallback_address);
 		fileloop();
-		
-		console_clrline();
+		tftp_loop(); //less likely to find something...
+		console_clrline();		
 	}
 
 	return 0;

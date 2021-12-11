@@ -35,8 +35,7 @@
 
 #include "log.h"
 
-void do_asciiart()
-{
+void do_asciiart() {
 	char *p = asciiart;
 	while (*p)
 		console_putch(*p++);
@@ -56,6 +55,8 @@ void dumpana() {
 }
 
 char FUSES[350]; /* this string stores the ascii dump of the fuses */
+char LDV[80];
+int ldvcount;
 
 unsigned char stacks[6][0x10000];
 
@@ -119,7 +120,7 @@ int main(){
 #endif
 	console_init();
 
-	printf("\nXeLL - Xenon linux loader second stage " LONGVERSION "\n");
+	printf("\nXeLL RELOADED - Xenon Linux Loader 2nd Stage " LONGVERSION "\n");
 	//printf("\nBuilt with GCC " GCC_VERSION " and Binutils " BINUTILS_VERSION " \n"); // User doesn't need to know this
 	do_asciiart();
 
@@ -149,7 +150,6 @@ int main(){
 	printf(" * starting httpd server...");
 	httpd_start();
 	printf("success\n");
-
 #endif
 
 	printf(" * usb init\n");
@@ -166,25 +166,65 @@ int main(){
 
 	mount_all_devices();
 	/*int device_list_size = */ findDevices();
-	/* display some cpu info */
-	printf(" * CPU PVR: %08x\n\n", mfspr(287));
 
+	console_clrscr();
+	printf(" ______________________________________\n|                                      |\n|  XeLL RELOADED - Xenon Linux Loader  |\n|______________________________________|\n"); // Fancy
+	
 #ifndef NO_PRINT_CONFIG
-	printf(" * FUSES - write them down and keep them safe:\n");
+	printf("\n * FUSES - write them down and keep them safe:\n");
 	char *fusestr = FUSES;
-	for (i=0; i<12; ++i){
+	char *ldvstr = LDV;
+	
+	for (i = 0; i < 12; ++i){
 		u64 line;
 		unsigned int hi,lo;
-
-		line=xenon_secotp_read_line(i);
-		hi=line>>32;
-		lo=line&0xffffffff;
+		
+		line = xenon_secotp_read_line(i);
+		hi=line >> 32;
+		lo=line & 0xffffffff;
 
 		fusestr += sprintf(fusestr, "fuseset %02d: %08x%08x\n", i, hi, lo);
-	}
-	printf(FUSES);
 
+		if (i >= 7) {
+			ldvstr += sprintf(ldvstr, "%08x%08x", hi, lo);
+		}
+	}
+	
+	for (i = 0; LDV[i] != '\0'; ++i) {
+		if ('f' == LDV[i]) {
+			++ldvcount;
+		}
+	}
+	
+	printf(FUSES);
+	
 	print_cpu_dvd_keys();
+	print_serials();
+	
+	printf(" * CPU PVR: %08x\n", mfspr(287));
+	
+	if (xenon_get_console_type() == 0) {
+		printf(" * Console: Xenon\n");
+	} else if (xenon_get_console_type() == 1) {
+		printf(" * Console: Xenon/Zephyr\n");
+	} else if (xenon_get_console_type() == 2) {
+		printf(" * Console: Falcon\n");
+	} else if (xenon_get_console_type() == 3) {
+		printf(" * Console: Jasper\n");
+	} else if (xenon_get_console_type() == 4) {
+		printf(" * Console: Trinity\n");
+	} else if (xenon_get_console_type() == 5) {
+		printf(" * Console: Corona\n");
+	} else if (xenon_get_console_type() == 6) {
+		printf(" * Console: Corona Phison/eMMC (4GB)\n");
+	} else if (xenon_get_console_type() == 7) {
+		printf(" * Console: Winchester - how did you get here???\n");
+	} else if (xenon_get_console_type() == -1) {
+		printf(" * Console: Unknown\n");
+	}
+	
+	printf(" * F/G LDV: %d\n", ldvcount);
+	
 	network_print_config();
 #endif
 	/* Stop logging and save it to first USB Device found that is writeable */
@@ -207,7 +247,8 @@ int main(){
 	for(;;){
 		fileloop();
 		tftp_loop(); //less likely to find something...
-		console_clrline();		
+		console_clrline();
+		usb_do_poll(); // Refresh USB
 	}
 
 	return 0;

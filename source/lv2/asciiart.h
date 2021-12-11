@@ -18,7 +18,6 @@ static char* asciiart = "\n"
 	"ﬂ ±± ﬂ±‹ ﬂﬂ ±± ﬂﬂﬂﬂﬂ ±± ﬂﬂﬂﬂ ±± ﬂﬂ ±±ﬂ ±± ﬂ ±±ﬂ ±± ﬂ ±±ﬂ ±± ﬂﬂﬂﬂﬂ ±± ﬂ ±±\n"
 	"  ≤≤  ﬁ≤›   ﬁ≤› ﬁ≤›  ≤≤      ﬁ≤›  ﬁ≤›  ≤≤   ≤≤  ≤≤  ﬁ≤›  ﬁ≤› ﬁ≤›  ≤≤  ﬁ≤›\n"
 	"  €€   €€    ﬂ€‹€ﬂ   €€       ﬂ€‹‹€ﬂ   €€   €€  €€ ‹€ﬂ    ﬂ€‹€ﬂ   €€ ‹€ﬂ\n"
-	"  ﬂﬂ   ﬂﬂ      ﬂ     ﬂﬂﬂﬂﬂﬂﬂ    ﬂﬂ     ﬂﬂ   ﬂﬂ   ﬂﬂﬂ        ﬂ      ﬂﬂﬂ\n"
-	"             Free60.org XeLL - Xenon Linux Loader " VERSION "\n";
+	"  ﬂﬂ   ﬂﬂ      ﬂ     ﬂﬂﬂﬂﬂﬂﬂ    ﬂﬂ     ﬂﬂ   ﬂﬂ   ﬂﬂﬂ        ﬂ      ﬂﬂﬂ\n\n";
 static char* asciitail =
-	"                 Special Corona Compatible XeLL version\n\n";
+	"              Free60.org XeLL RELOADED - Xenon Linux Loader\n\n";

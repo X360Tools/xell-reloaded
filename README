@@ -6,7 +6,7 @@ XeLL-Reloaded catches CPU threads, sets them up, loads an ELF file from either n
 It's made to boot Linux, so it contains a flat device tree for Linux. However, it is able to load other ELF files as well, like applications based on LibXenon.
 
 * Now based on LibXenon
-* Supports the new Reset Glitch Hack - RGH. (xell-gggggg)
+* Supports the new Reset Glitch Hack - RGH. xell-gggggg.bin 
 * XeLL-Reloaded is now divided in 2 stages:
 	- 1st Stage initializes most of the Hardware, uncompresses and executes 2nd Stage
 	- 2nd Stage (based on LibXenon) loads all required drivers and does the usual "XeLL tasks"

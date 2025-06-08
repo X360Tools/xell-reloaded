@@ -17,7 +17,7 @@ It's made to boot Linux, so it contains a flat device tree for Linux. However, i
 * lwip network stack upgraded to v1.4 Final - It's faster and DHCP is improved.
 * It can access the DVD-drive via DMA now: faster reading
 * It's possible to reload into XeLL now when you are inside a LibXenon Application
-* New HTTP web interface to retrieve nand dump.
+* New HTTPhttps://github.com/X360Tools/xell-reloaded.git web interface to retrieve nand dump.
 * Improved hardware initialization now allows chain-loading.
 * Supports upgrading with a 2-stage XeLL-Reloaded binary, named "updxell.bin"
 * Infinite boot loop when looking for ELFs to execute.(no more rushing to get the live-cd in)

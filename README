@@ -58,7 +58,7 @@ updflash.bin is a already remapped flashimage/nandimage. 16MB file for 16MB NAND
 
 updxell.bin is a renamed xell*.bin file. * Version depending on the used hack (JTAG XeLL: xell-1f (oldies) xell-2f (modern), RGH XeLL: xell-gggggg)
 
-kboot.conf (modified for XeLL) is a configfile
+kboot.conf
 	General XeLL config: Set TFTP-Server, CPU-Speedup, videomode, NetConfig
 	Menu: Parses bootentries, shows a user controlable menu with XboxController/UART/IR Remote
 	      It can parse bootarguments for linux kernels & can load initramfs/initrd 
